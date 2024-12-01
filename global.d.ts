@@ -7,8 +7,18 @@ declare namespace ymaps {
     controls: string[]
   }
 
+  interface MapEvent {
+    get(type: 'coords'): [number, number]
+  }
+
+  interface MapEvents {
+    add(event: string, event: (e: MapEvent) => void): void
+  }
+
   class Map {
     constructor(element: HTMLElement | string, props: YMapProps)
+
+    events: MapEvents
   }
 
   class Placemark {

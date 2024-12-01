@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import { key } from '@/app/store'
+import GlobeIcon from '@/shared/icons/GlobeIcon.vue'
 
 const store = useStore(key)
 
 const onSwitch = () => {
-  store.dispatch('switchLanguage')
+  store.dispatch('i18n/switchLanguage')
 }
 </script>
 
 <template>
-  <button @click="onSwitch">Switch</button>
+  <v-btn class="w-6 h-6 ml-auto" @click="onSwitch"><globe-icon /></v-btn>
 </template>
 
 <style scoped></style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { useTranslation } from '@/shared/lib/i18n'
+import SwitchLanguageButton from '@/features/switch-language/SwitchLanguageButton.vue'
 
 const route = useRoute()
 const t = useTranslation()
@@ -9,7 +10,7 @@ const t = useTranslation()
 <template>
   <v-layout full-height>
     <v-app-bar>
-      <p class="text-h5 mx-4">Test task</p>
+      <p class="text-h5 mx-4">{{ t('name') }}</p>
       <ul class="d-flex align-center ga-2">
         <li class="d-inline">
           <RouterLink to="/">
@@ -30,6 +31,7 @@ const t = useTranslation()
           </RouterLink>
         </li>
       </ul>
+      <switch-language-button />
     </v-app-bar>
     <v-main>
       <slot></slot>
