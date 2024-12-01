@@ -1,7 +1,17 @@
-declare namespace ymaps3 {
-  const ready: Promise<void>
+declare namespace ymaps {
+  function ready(callback: () => void): void
 
-  class YMap {
-    constructor(element: HTMLElement)
+  interface YMapProps {
+    center: [number, number]
+    zoom: number
+    controls: string[]
+  }
+
+  class Map {
+    constructor(element: HTMLElement | string, props: YMapProps)
+  }
+
+  class Placemark {
+    constructor(coords: [number, number])
   }
 }

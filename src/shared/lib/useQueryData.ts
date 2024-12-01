@@ -22,7 +22,6 @@ export const useQueryData = (opts: UseQueryDataHookOpts) => {
       store.commit('initializeQueryState', opts.key)
     }
     opts.queryFn().then((data) => {
-      console.log({ data })
       store.dispatch('commitQueryData', { key: opts.key, data })
     })
   })

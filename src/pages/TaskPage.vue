@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TaskList from '@/widgets/TaskList.vue'
+</script>
 
 <template>
-  <div></div>
+  <task-list />
 </template>
 
 <style scoped></style>

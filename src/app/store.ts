@@ -1,44 +1,40 @@
 import { createStore, Store } from 'vuex'
 import type { InjectionKey } from 'vue'
-import type { MarkerQueryData, MarkerQueryKey } from '@/entities/marker'
+import type { Marker } from '@/entities/marker'
 import type { QueryState } from '@/shared/lib/useQueryData'
+import { I18nStore } from '@/shared/lib/i18n/i18nStore'
 
-type CacheKeys = MarkerQueryKey
-
-export interface State {
-  cache: MarkerQueryData
-  queryStates: Record<CacheKeys, QueryState>
+interface RootState {
+  markers: BaseQueryState<Marker[]>
 }
 
-export const key: InjectionKey<Store<State>> = Symbol()
+export const key: InjectionKey<Store<RootState>> = Symbol()
 
-export const store = createStore<State>({
+export const store = createStore({
   state: {
     cache: {},
-    queryStates: {},
+    queryState: {},
   },
   actions: {
-    commitQueryData(context, payload: { key: string; data: unknown }) {
+    commitQueryData(context, payload: { data: unknown; key: string }) {
       context.commit('setQueryData', payload)
     },
-    commitQueryInit(context, payload: string) {
+    commitInitialize(context, payload: { data: unknown; key: string }) {
       context.commit('initializeQueryState', payload)
     },
   },
   mutations: {
-    setQueryData(state, payload: { key: string; data: unknown }) {
-      state.cache[payload.key] = payload.data
+    setQueryData(state, payload: { data: unknown; key: string }) {
+      state.cache[key] = payload.data
     },
-    initializeQueryState(state, key: string) {
-      state.queryStates[key] = {
-        isLoading: false,
-        isFetched: false,
-        isError: false,
-        _initialized: true,
-      }
+    setQueryState(state, payload: { data: Partial<QueryState>; key: string }) {
+      state.queryState[key] = payload.data
     },
-    setQueryState(state, payload: { key: string; data: QueryState }) {
-      state.queryStates[payload.key] = data
+    initializeQueryState(state, payload: { data: unknown; key: string }) {
+      state.queryState[key] = payload
     },
+  },
+  modules: {
+    i18n: I18nStore,
   },
 })
