@@ -14,7 +14,7 @@ export class MarkerApi extends Backend {
 
       return data
     } catch (err) {
-      throw new Error('Error fetching markers data')
+      throw new Error(`Error fetching markers data: ${err}`)
     }
   }
 
@@ -24,7 +24,7 @@ export class MarkerApi extends Backend {
 
       return data
     } catch (err) {
-      throw new Error('Error while creating a new marker')
+      throw new Error(`Error while creating a new marker, ${err}`)
     }
   }
 }

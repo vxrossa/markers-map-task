@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import Layout from '@/widgets/Layout.vue'
+import LayoutWidget from '@/widgets/LayoutWidget.vue'
 </script>
 
 <template>
   <v-app>
-    <layout>
+    <layout-widget>
       <router-view />
-    </layout>
+    </layout-widget>
   </v-app>
 </template>
