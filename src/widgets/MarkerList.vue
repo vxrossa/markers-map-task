@@ -22,13 +22,13 @@ const t = useTranslation()
 
 <template>
   <v-list v-if="markerData && markerData.length > 0" class="w-100 h-100">
-    <marker-card
-      :selected-marker="selectedMarker"
-      @click="emit('markerSelect', marker)"
-      v-for="marker in markerData"
-      :key="marker.name"
-      :marker="marker"
-    />
+    <v-list-item :key="marker.name" v-for="marker in markerData">
+      <marker-card
+        :selected-marker="selectedMarker"
+        @click="emit('markerSelect', marker)"
+        :marker="marker"
+      />
+    </v-list-item>
   </v-list>
   <p class="text-md mt-10 text-center" v-else>{{ t('noData') }}</p>
 </template>

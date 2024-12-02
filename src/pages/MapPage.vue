@@ -34,7 +34,9 @@ const { addMarker, centerOn } = useOpenLayersMap({
           lat: coords[0],
           long: coords[1],
           name: d.response.GeoObjectCollection.featureMember[0].GeoObject.name,
-          description: d.response.GeoObjectCollection.featureMember[1].GeoObject.description,
+          description:
+            d.response.GeoObjectCollection.featureMember[1].GeoObject.metaDataProperty
+              .GeocoderMetaData.text,
         })
         addMarker([coords[1], coords[0]])
         isEditMode.value = false

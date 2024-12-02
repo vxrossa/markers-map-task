@@ -17,9 +17,10 @@ const isSelected = computed(() => {
 <template>
   <v-card
     ref="block"
-    :title="marker.name"
+    class="px-4 py-2"
+    :subtitle="marker.name"
     :color="isSelected ? 'red' : undefined"
-    variant="elevated"
+    variant="outlined"
     >{{ marker.description }}</v-card
   >
 </template>

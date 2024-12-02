@@ -4,6 +4,11 @@ interface GeocodeLocation {
   GeoObject: {
     name: string
     description: string
+    metaDataProperty: {
+      GeocoderMetaData: {
+        text: string
+      }
+    }
   }
 }
 
