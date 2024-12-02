@@ -92,6 +92,7 @@ export const useOpenLayersMap = (opts?: UseOpenLayersOpts) => {
     })
 
     marker.setStyle(markerStyle)
+
     mapSettings.vectorSource.addFeature(marker)
   }
 

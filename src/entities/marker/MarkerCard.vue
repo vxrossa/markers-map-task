@@ -4,18 +4,13 @@ import { computed, ref } from 'vue'
 
 const props = defineProps<{
   marker: Marker
-  selectedMarker?: [number, number] | null
+  selectedMarker?: Marker | null
 }>()
 
 const block = ref<HTMLElement | null>()
 
 const isSelected = computed(() => {
-  if (!props.selectedMarker) return false
-
-  return (
-    props.marker.lat.toFixed(4) === props.selectedMarker[0].toFixed(4) ||
-    props.marker.long.toFixed(4) === props.selectedMarker[1].toFixed(4)
-  )
+  return props.selectedMarker?.id === props.marker.id
 })
 </script>
 

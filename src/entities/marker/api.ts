@@ -20,7 +20,7 @@ export class MarkerApi extends Backend {
 
   async createMarker(newMarker: Marker) {
     try {
-      const data = await this.post('/markers', newMarker)
+      const data = await this.post('/markers', { ...newMarker, id: window.crypto.randomUUID() })
 
       return data
     } catch (err) {

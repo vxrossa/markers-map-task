@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import MarkerList from '@/widgets/MarkerList.vue'
 import { useQueryData, useQueryMutation } from '@/shared/lib/useQueryData'
 import { type Marker, markerApi } from '@/entities/marker'
 import { useOpenLayersMap } from '@/shared/lib/ol'
 import { geocodeLocation } from '@/shared/lib/ymaps'
-import { ref, watch } from 'vue'
 import { useTranslation } from '@/shared/lib/i18n'
 import ToggleEditButton from '@/features/toggle-edit/ToggleEditButton.vue'
 
 const isEditMode = ref(false)
 const markersInitialized = ref(false)
-const selectedMarker = ref<[number, number] | null>(null)
+const selectedMarker = ref<Marker | null>(null)
 const t = useTranslation()
+const router = useRouter()
+const route = useRoute()
 
 const { data: markerData } = useQueryData<Marker[]>({
   key: 'markers',
@@ -40,7 +43,13 @@ const { addMarker, centerOn } = useOpenLayersMap({
   },
   onMarkerClick: (coords) => {
     if (coords) {
-      selectedMarker.value = coords
+      const currentMarker = markerData.value.find((m) => {
+        return (
+          m.lat.toFixed(4) === coords[0].toFixed(4) || m.long.toFixed(4) === coords[0].toFixed(4)
+        )
+      })
+
+      selectedMarker.value = currentMarker
     } else {
       selectedMarker.value = null
     }
@@ -49,6 +58,7 @@ const { addMarker, centerOn } = useOpenLayersMap({
 
 const onMarkerSelect = (data: Marker) => {
   centerOn([data.long, data.lat])
+  selectedMarkerId.value = data.id
 }
 
 watch(markerData, () => {
@@ -58,8 +68,18 @@ watch(markerData, () => {
     markerData.value.forEach((marker) => {
       addMarker([marker.long, marker.lat])
     })
+    if (route.query.markerId) {
+      selectedMarker.value = markerData.value.find((m) => m.id === route.query.markerId)
+    }
     markersInitialized.value = true
   }
+})
+
+watch(selectedMarker, () => {
+  router.push({
+    path: '/map',
+    query: { markerId: selectedMarker?.value ? selectedMarker.value.id : '' },
+  })
 })
 </script>
 
@@ -70,8 +90,13 @@ watch(markerData, () => {
     </div>
     <div class="w-75 h-100">
       <div class="w-100 h-100">
-        <div v-if="isEditMode" class="select-notification position-absolute w-100 h-5 bg-red z-10">
-          {{ t('selectMode') }}
+        <div
+          v-if="isEditMode"
+          class="select-notification position-absolute p-2 w-100 h-5 bg-red z-10"
+        >
+          <p class="text-center w-75">
+            {{ t('selectMode') }}
+          </p>
         </div>
         <div id="map"></div>
         <toggle-edit-button :is-edit-mode="isEditMode" @toggle-edit="isEditMode = !isEditMode" />

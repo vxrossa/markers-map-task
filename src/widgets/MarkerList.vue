@@ -2,19 +2,22 @@
 import { useQueryData } from '@/shared/lib/useQueryData'
 import { type Marker, markerApi } from '@/entities/marker'
 import MarkerCard from '@/entities/marker/MarkerCard.vue'
+import { useTranslation } from '@/shared/lib/i18n'
 
 const emit = defineEmits<{
   (e: 'markerSelect', data: Marker): void
 }>()
 
 defineProps<{
-  selectedMarker: [number, number] | null
+  selectedMarker: Marker | null
 }>()
 
 const { data: markerData } = useQueryData<Marker[]>({
   queryFn: () => markerApi.getMarkers(),
   key: 'markers',
 })
+
+const t = useTranslation()
 </script>
 
 <template>
@@ -27,7 +30,7 @@ const { data: markerData } = useQueryData<Marker[]>({
       :marker="marker"
     />
   </v-list>
-  <p v-else>No data for now!</p>
+  <p class="text-md mt-10 text-center" v-else>{{ t('noData') }}</p>
 </template>
 
 <style scoped></style>

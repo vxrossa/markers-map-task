@@ -26,6 +26,7 @@ export const en = {
   notedContent:
     'This test task must show that you are able to write modular code and can use the technologies mentioned above. Make yourself proud of this code!',
   selectMode: 'The map is in select mode',
+  noData: 'No data. Click the button in the bottom right corner to add an address!',
 } as const
 
 export const ru = {
@@ -57,6 +58,7 @@ export const ru = {
   notedContent:
     'Тестовое задание призвано показать умение писать хороший модульный код, а также умение пользоваться указанными технологиями и не только. Этим кодом нужно гордиться.',
   selectMode: 'Карта в режиме выбора маркера',
+  noData: 'Данных нет. Нажмите на кнопку в нижнем правом углу, чтобы добавить адрес!',
 } as const
 
 export type DictionaryDefinition = keyof typeof en | keyof typeof ru
