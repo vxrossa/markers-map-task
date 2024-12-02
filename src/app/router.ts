@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: () => MapPage,
+      component: MapPage,
     },
   ],
 })
