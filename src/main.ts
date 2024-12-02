@@ -1,5 +1,6 @@
 import 'vuetify/styles'
 
+// import { config as vueconfig } from '@vue/test-utils'
 import { createApp } from 'vue'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -12,6 +13,8 @@ const vuetify = createVuetify({
   components,
   directives,
 })
+
+// vueconfig.global.plugins.push(vuetify)
 
 const app = createApp(App)
 
