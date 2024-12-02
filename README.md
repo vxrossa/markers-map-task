@@ -1,39 +1,60 @@
-# map-markers-task
+# Map Markers Task
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a test task that includes a description as well as an interactive map.
 
-## Recommended IDE Setup
+### Main features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1. A list of tasks
+2. An interactive map where you can:
+    - Explore the map of Belgrade
+    - Place points of interest
+    - Get a list of saved interest points
+    - Get information when clicking the interest point
 
-## Type Support for `.vue` Imports in TS
+### Main stack
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+App uses Vue 3 with Composition API and TypeScript. Styling is done via Vuetify 3, state management with cacheable queries in done via Vuex. Vue Router handles routing (well, obviously). Map uses the OpenLayers JavaScript library. Data is stored in the browser using localStorage.
 
-## Customize configuration
+### Folder structure
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+The app follows *Feature Sliced Design* principles and is divided into several parts:
 
-## Project Setup
+- app: the top layer where `App.vue` and app-wide logic live
+- widgets: complex layers and components
+- features: smaller layers and components designed to implement a single business feature
+- entities: domain layer lives here. every business entity is described here and has a separate API, separate types and components that represent the said entity
+- shared 
+    - lib: library and packages code that can be reused
+    - api: reusable api for the backend
+    - etc. icons, shared components
 
-```sh
+[Link to FSD Documentation](https://feature-sliced.design)
+
+I tried documenting complex features with JsDoc, you can use and edit them as you wish.
+
+### Starting a project
+
+Install the dependencies with 
+```
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Since some of the dependencies might conflict with each other (especially the dev deps for Jest), if the installation fails, try:
+```
+npm install --legacy-peer-deps
+```
 
-```sh
+To launch the project, use:
+```
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+To run tests:
 
-```sh
-npm run build
+```
+npm test
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### About tests
 
-```sh
-npm run lint
-```
+Tests are located in the "src/tests" directiory. To test a component, use `@testing-library/vue` together with Jest and Jest-DOM
