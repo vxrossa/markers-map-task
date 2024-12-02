@@ -1,1 +1,1 @@
-export { useYMaps } from './useYMaps'
+export * from './geocode'

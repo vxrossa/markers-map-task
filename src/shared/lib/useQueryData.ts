@@ -15,11 +15,15 @@ export const useQueryData = <D = unknown>(opts: UseQueryDataHookOpts) => {
       store.commit('initializeQueryState', { key: opts.key })
     }
 
-    if (!store.state.queryState[opts.key]?.isFetched) {
+    if (
+      !store.state.queryState[opts.key]?.isFetched &&
+      !store.state.queryState[opts.key]?.isFetching
+    ) {
       store.dispatch('commitQueryState', {
         data: {
           isLoading: true,
           isFetched: false,
+          isFetching: true,
         },
         key: opts.key,
       })
@@ -29,6 +33,7 @@ export const useQueryData = <D = unknown>(opts: UseQueryDataHookOpts) => {
           data: {
             isLoading: false,
             isFetched: true,
+            isFetching: false,
           },
           key: opts.key,
         })

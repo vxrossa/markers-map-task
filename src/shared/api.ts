@@ -23,8 +23,6 @@ export class Backend {
 
       const currentData = JSON.parse(localStorage.getItem(storageUrl))
 
-      console.log(currentData)
-
       if (Array.isArray(currentData)) {
         localStorage.setItem(storageUrl, JSON.stringify([...currentData, data]))
       } else {

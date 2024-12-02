@@ -1,41 +1,16 @@
 <script setup lang="ts">
-import { useYMaps } from '@/shared/lib/ymaps'
-import { ref } from 'vue'
-import { geocodeLocation } from '@/shared/lib/ymaps/geocode'
-import { useQueryMutation } from '@/shared/lib/useQueryData'
-import { type Marker, markerApi } from '@/entities/marker'
 import { useTranslation } from '@/shared/lib/i18n'
 import PlusIcon from '@/shared/icons/PlusIcon.vue'
 
+defineProps<{
+  isEditMode: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'toggleEdit'): void
+}>()
+
 const t = useTranslation()
-const { mutate: createNewMarker } = useQueryMutation<Marker[], Marker>({
-  key: 'markers',
-  mutationFn: (data) => markerApi.createMarker(data),
-})
-
-const ymaps = useYMaps(
-  'map',
-  {
-    center: [44.787197, 20.457273],
-    zoom: 12,
-    mode: 'vector',
-    controls: [],
-  },
-  () => {
-    ymaps.addClickEvent((coords) => {
-      geocodeLocation(coords).then((d) => {
-        createNewMarker({
-          name: d.response.GeoObjectCollection.featureMember[0].GeoObject.name,
-          description: d.response.GeoObjectCollection.featureMember[0].GeoObject.description,
-          lat: coords[0],
-          long: coords[1],
-        })
-      })
-    })
-  },
-)
-
-const isEditMode = ref(false)
 </script>
 
 <template>
@@ -45,7 +20,7 @@ const isEditMode = ref(false)
     </div>
     <div id="map"></div>
     <v-btn
-      @click="isEditMode = true"
+      @click="emit('toggleEdit')"
       color="red"
       class="position-absolute bottom-0 right-0 mr-10 mb-10"
       size="50"

@@ -7,6 +7,7 @@ interface QueryState {
   isLoading: boolean
   isError: boolean
   isInitialized: boolean
+  isFetching: boolean
 }
 
 interface RootState {
@@ -60,6 +61,7 @@ export const store = createStore({
         isFetched: false,
         isLoading: false,
         isError: false,
+        isFetching: false,
       }
     },
   },

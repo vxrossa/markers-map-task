@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { useQueryData } from '@/shared/lib/useQueryData'
 import { type Marker, markerApi } from '@/entities/marker'
+import MarkerCard from '@/entities/marker/MarkerCard.vue'
+
+const emit = defineEmits<{
+  (e: 'markerSelect', data: Marker): void
+}>()
 
 const { data: markerData } = useQueryData<Marker[]>({
   queryFn: () => markerApi.getMarkers(),
@@ -9,9 +14,15 @@ const { data: markerData } = useQueryData<Marker[]>({
 </script>
 
 <template>
-  <v-list class="w-100 h-100" v-for="marker in markerData" :key="marker.id">
-    <v-list-item>{{ marker.name }}</v-list-item>
+  <v-list v-if="markerData && markerData.length > 0" class="w-100 h-100">
+    <marker-card
+      @click="emit('markerSelect', marker)"
+      v-for="marker in markerData"
+      :key="marker.name"
+      :marker="marker"
+    />
   </v-list>
+  <p v-else>No data for now!</p>
 </template>
 
 <style scoped></style>
