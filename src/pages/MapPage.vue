@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import MapWidget from '@/widgets/MapWidget.vue'
 import MarkerList from '@/widgets/MarkerList.vue'
 import { useQueryData, useQueryMutation } from '@/shared/lib/useQueryData'
 import { type Marker, markerApi } from '@/entities/marker'
-import { useOpenLayersMap } from '@/shared/lib/ol/useOpenLayersMap'
+import { useOpenLayersMap } from '@/shared/lib/ol'
 import { geocodeLocation } from '@/shared/lib/ymaps'
 import { ref, watch } from 'vue'
+import { useTranslation } from '@/shared/lib/i18n'
+import ToggleEditButton from '@/features/toggle-edit/ToggleEditButton.vue'
 
 const isEditMode = ref(false)
 const markersInitialized = ref(false)
+const selectedMarker = ref<[number, number] | null>(null)
+const t = useTranslation()
 
 const { data: markerData } = useQueryData<Marker[]>({
   key: 'markers',
@@ -35,6 +38,13 @@ const { addMarker, centerOn } = useOpenLayersMap({
       })
     }
   },
+  onMarkerClick: (coords) => {
+    if (coords) {
+      selectedMarker.value = coords
+    } else {
+      selectedMarker.value = null
+    }
+  },
 })
 
 const onMarkerSelect = (data: Marker) => {
@@ -55,11 +65,33 @@ watch(markerData, () => {
 
 <template>
   <div class="w-100 d-flex h-auto">
-    <div class="w-25 h-100">
-      <marker-list @marker-select="onMarkerSelect" />
+    <div class="markers-list w-25">
+      <marker-list :selected-marker="selectedMarker" @marker-select="onMarkerSelect" />
     </div>
     <div class="w-75 h-100">
-      <map-widget @toggle-edit="isEditMode = !isEditMode" :is-edit-mode="isEditMode" />
+      <div class="w-100 h-100">
+        <div v-if="isEditMode" class="select-notification position-absolute w-100 h-5 bg-red z-10">
+          {{ t('selectMode') }}
+        </div>
+        <div id="map"></div>
+        <toggle-edit-button :is-edit-mode="isEditMode" @toggle-edit="isEditMode = !isEditMode" />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.markers-list {
+  height: 95vh;
+  overflow: scroll;
+}
+
+#map {
+  height: 95vh;
+  width: 100%;
+}
+
+.select-notification {
+  z-index: 10;
+}
+</style>

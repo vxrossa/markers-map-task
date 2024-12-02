@@ -60,13 +60,15 @@ export const useOpenLayersMap = (opts?: UseOpenLayersOpts) => {
     select.on('select', (e) => {
       if (e.selected.length > 0) {
         const coords = toLonLat(e.selected[0].getGeometry().getCoordinates()).reverse()
-        opts?.onMarkerClick(coords)
+        opts?.onMarkerClick?.(coords)
+      } else {
+        opts?.onMarkerClick(null)
       }
     })
 
     map.on('click', (e) => {
       const transformedCoordinates = transform(e.coordinate, 'EPSG:3857', 'EPSG:4326')
-      opts?.onMapClick(transformedCoordinates.reverse())
+      opts?.onMapClick?.(transformedCoordinates.reverse())
     })
 
     mapSettings.map = map

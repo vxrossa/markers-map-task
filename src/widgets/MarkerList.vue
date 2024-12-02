@@ -7,6 +7,10 @@ const emit = defineEmits<{
   (e: 'markerSelect', data: Marker): void
 }>()
 
+defineProps<{
+  selectedMarker: [number, number] | null
+}>()
+
 const { data: markerData } = useQueryData<Marker[]>({
   queryFn: () => markerApi.getMarkers(),
   key: 'markers',
@@ -16,6 +20,7 @@ const { data: markerData } = useQueryData<Marker[]>({
 <template>
   <v-list v-if="markerData && markerData.length > 0" class="w-100 h-100">
     <marker-card
+      :selected-marker="selectedMarker"
       @click="emit('markerSelect', marker)"
       v-for="marker in markerData"
       :key="marker.name"

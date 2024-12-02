@@ -5,5 +5,3 @@ import TaskList from '@/widgets/TaskList.vue'
 <template>
   <task-list />
 </template>
-
-<style scoped></style>

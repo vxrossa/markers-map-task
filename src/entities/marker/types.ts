@@ -4,9 +4,3 @@ export interface Marker {
   lat: number
   long: number
 }
-
-export type MarkerQueryKey = 'markers'
-
-export type MarkerQueryData = {
-  markers: Marker[]
-}

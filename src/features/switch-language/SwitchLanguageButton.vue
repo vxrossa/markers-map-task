@@ -11,7 +11,9 @@ const onSwitch = () => {
 </script>
 
 <template>
-  <v-btn class="w-6 h-6 ml-auto" @click="onSwitch"><globe-icon /></v-btn>
+  <v-btn class="w-6 h-6 ml-auto" @click="onSwitch"
+    ><globe-icon />{{ store.state.i18n.language.toUpperCase() }}</v-btn
+  >
 </template>
 
 <style scoped></style>
